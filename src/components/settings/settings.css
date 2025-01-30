@@ -1,0 +1,7 @@
+.setup {
+    text-align: center;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    flex-direction: row;
+}
