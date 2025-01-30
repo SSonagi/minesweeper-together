@@ -60,7 +60,7 @@ const Cell = ({
 			playSound();
 			dispatch(clickCell({x, y}));
 		}
-	}, [gameState]);
+	}, [gameState, dispatch, playSound, x, y]);
 
 	const onRightClick = useCallback((e) => {
 		e.preventDefault();
@@ -69,7 +69,7 @@ const Cell = ({
 			playSound();
 			dispatch(rightClickCell({x, y}))
 		}
-	}, [gameState]);
+	}, [gameState, dispatch, playSound, x, y]);
 
 	return (
         <Button 

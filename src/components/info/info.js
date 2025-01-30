@@ -21,7 +21,7 @@ const Info = () => {
 		return () => {
 			clearInterval(gameTimer);
 		};
-	}, [enableTimer]);
+	}, [enableTimer, dispatch]);
 
     return (
         <div style={{ color: '#FFFFFF', fontSize: '25px'}}>

@@ -15,28 +15,27 @@ const Settings = () => {
     const [difficultyIndex, setDifficultyIndex] = React.useState(0);
 
     const onClickRestart = useCallback(() => {
+        const difficulties = [
+            [8,8,10],
+            [9,9,10],
+            [10,10,10],
+            [15,13,40],
+            [16,13,40],
+            [15,14,40],
+            [16,14,40],
+            [15,15,40],
+            [16,15,40],
+            [16,16,40],
+            [30,16,99]
+        ];
         console.log(difficulties[difficultyIndex]);
 		dispatch(setGame(difficulties[difficultyIndex]));
 		dispatch(restartGame());
-	}, [difficultyIndex]);
+	}, [difficultyIndex, dispatch]);
 
     const handleDifficultyChange = (event) => {
         setDifficultyIndex(event.target.value);
     };
-
-    const difficulties = [
-        [8,8,10],
-        [9,9,10],
-        [10,10,10],
-        [15,13,40],
-        [16,13,40],
-        [15,14,40],
-        [16,14,40],
-        [15,15,40],
-        [16,15,40],
-        [16,16,40],
-        [30,16,99]
-    ];
 
     return (
         <div className="setup">
