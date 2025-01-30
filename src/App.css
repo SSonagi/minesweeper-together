@@ -41,3 +41,9 @@ h1 {
   align-items: center;
   height: calc(100vh - 200px);
 }
+
+.Credits {
+  color: #6e6e6e;
+  bottom: 25px;
+  position: absolute;
+}

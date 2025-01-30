@@ -47,6 +47,7 @@ function App() {
           <Board width={width} height={height}/>
           <div style={{width: String(width * 40 + width) + 'px'}} className='Result'>{getResult()}</div>
         </div>
+        <a className='Credits' href="https://github.com/SSonagi/minesweeper-together">Github</a>
       </div>
     </ThemeProvider>
   );
