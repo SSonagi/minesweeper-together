@@ -1,10 +1,6 @@
 import { CODES } from '../constants';
 
 export const initBoard = (width, height, mineCount) => {
-	console.log(width);
-	console.log(height);
-	console.log(mineCount);
-
     const indexes = Array.from(Array(width * height).keys());
     const mines = [];
     const board = [];
