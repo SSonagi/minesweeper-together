@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createTheme, ThemeProvider } from '@mui/material';
+import { restartGame } from './store/actions';
 import { GAME } from './constants';
 import Board from './components/board/board';
 import Settings from './components/settings/settings';
@@ -23,17 +24,26 @@ function App() {
   const width = useSelector(state => state.width);
   const height = useSelector(state => state.height);
   const gameState = useSelector(state => state.gameState);
+  const dispatch = useDispatch();
+
+  const tryAgain = useCallback(() => {
+    dispatch(restartGame());
+  }, [dispatch]);
 
   const getResult = useCallback(() => {
       switch (gameState) {
         case GAME.WIN:
           return 'You Win!';
         case GAME.LOSE:
-          return 'Try Again?';
+          return (
+            <button className='Reset' onClick={tryAgain}>
+              Try Again?
+            </button>
+          );
         default:
           return '';
       }
-    }, [gameState]);
+    }, [gameState, tryAgain]);
 
   return (
     <ThemeProvider theme={theme}>
