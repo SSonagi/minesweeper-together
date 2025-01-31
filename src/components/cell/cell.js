@@ -74,7 +74,7 @@ const Cell = ({
 	return (
         <Button 
 			style={cellStyle} 
-			color='cell'
+			color='primary'
 			variant={board >= CODES.OPENED ? "outlined" : "contained"}
 			onClick={onClick} 
 			onContextMenu={onRightClick}>{getCell(board)}

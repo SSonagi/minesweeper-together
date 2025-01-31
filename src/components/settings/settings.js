@@ -105,7 +105,7 @@ const Settings = () => {
                     <MenuItem value={10}>30 x 16</MenuItem>
                 </Select>
             </FormControl>
-            <IconButton color='button' onClick={onClickRestart}>
+            <IconButton color='primary' onClick={onClickRestart}>
                 <RestartAltIcon/>
             </IconButton>
         </div>

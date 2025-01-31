@@ -11,10 +11,7 @@ import './App.css';
 
 const theme = createTheme({
   palette: {
-    cell: {
-      main: '#FFFFFF',
-    },
-    button: {
+    primary: {
       main: '#FFFFFF',
     }
   },
