@@ -14,10 +14,7 @@ import { DIFFICULTY } from './constants';
 import { DifficultyContext } from './components/settings/Context';
 
 const socket = io("https://minesweeper-together.onrender.com", {
-  withCredentials: true,
-  extraHeaders: {
-    "Access-Control-Allow-Origin": "http://minesweepertogether.com"
-  }
+  withCredentials: true
 }); // Connect to server
 
 const theme = createTheme({

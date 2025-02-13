@@ -11,9 +11,8 @@ const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
     cors: {
-        origin: "http://minesweepertogether.com", // React frontend URL
+        origin: ["http://minesweepertogether.com", "https://minesweepertogether.com"], // React frontend URL
         methods: ["GET", "POST"],
-        allowedHeaders: ["http://minesweepertogether.com"],
         credentials: true
     },
 });
@@ -139,5 +138,5 @@ io.on("connection", (socket) => {
     });
 });
 
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 httpServer.listen(PORT, () => console.log(`Server running on port ${PORT}`));
