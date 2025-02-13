@@ -13,7 +13,7 @@ import './App.css';
 import { DIFFICULTY } from './constants';
 import { DifficultyContext } from './components/settings/Context';
 
-const socket = io("http://localhost:4000"); // Connect to server
+const socket = io("https://minesweeper-together.onrender.com"); // Connect to server
 
 const theme = createTheme({
   palette: {
