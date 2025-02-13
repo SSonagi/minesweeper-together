@@ -13,11 +13,11 @@ import './App.css';
 import { DIFFICULTY } from './constants';
 import { DifficultyContext } from './components/settings/Context';
 
-//const socket = io("localhost:4000");
+const socket = io("localhost:4000");
 
-const socket = io("https://minesweeper-together.onrender.com", {
-  withCredentials: true
-}); // Connect to server
+// const socket = io("https://minesweeper-together.onrender.com", {
+//   withCredentials: true
+// }); // Connect to server
 
 const theme = createTheme({
   palette: {
@@ -75,7 +75,12 @@ function App() {
           <div className='Body'>
             <h1>MINESWEEPER TOGETHER</h1>
             <Board difficulty={difficulty} boardData={boardData}/>
-            <div style={{width: String(DIFFICULTY[difficulty][0] * 40 + DIFFICULTY[difficulty][0]) + 'px'}} className='Result'>{getResult()}</div>
+            <div 
+              style={{
+                width: String(DIFFICULTY[difficulty][0] * 40 + DIFFICULTY[difficulty][0]) + 'px'
+              }} 
+              className='Result'>{getResult()}
+            </div>
           </div>
           <div className='Footer'>
             <Players/>

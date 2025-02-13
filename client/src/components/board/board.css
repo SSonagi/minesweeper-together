@@ -3,6 +3,6 @@
 	flex-wrap: wrap;
 	justify-content: center;
     flex-direction: row;
-    gap: 1px;
+    gap: 0px;
     align-content: center;
 }

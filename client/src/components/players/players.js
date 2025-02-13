@@ -22,7 +22,7 @@ const Players = () => {
                     <ListItemIcon>
                         <CircleIcon sx={{ color: "#FFFFFF" }}/>
                     </ListItemIcon>
-                    <ListItemText id={labelId} primary={value } />
+                    <ListItemText id={labelId} primary={value } />  
                 </ListItem>
                 );
             })}

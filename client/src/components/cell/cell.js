@@ -2,6 +2,7 @@ import React, { memo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clickCell, rightClickCell } from '../../store/actions';
 import { CODES, GAME } from '../../constants';
+import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import useSound from 'use-sound'
 import OpenCellSound from '../../sound/OpenCell.mp3' // Your sound file path here
@@ -14,6 +15,10 @@ const cellStyle = {
 	maxHeight: cellSize, 
 	minHeight: cellSize,
 };
+
+const CellButton = styled(Button)({
+	boxShadow: '0 0 0.1rem 0',
+});
 
 const Cell = ({
 	x,
@@ -75,13 +80,13 @@ const Cell = ({
 	}, [gameState, dispatch, playSound, x, y]);
 
 	return (
-        <Button 
+        <CellButton 
 			style={cellStyle} 
 			color='primary'
 			variant={board >= CODES.OPENED ? "outlined" : "contained"}
 			onClick={onClick} 
 			onContextMenu={onRightClick}>{getCell(board)}
-		</Button>
+		</CellButton>
 	);
 };
 

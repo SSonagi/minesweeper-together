@@ -24,7 +24,7 @@ const Room = () => {
     };
 
     return (
-        <Stack direction="row" alignItems="center" style={{ color: '#FFFFFF', fontSize: '25px'}}>
+        <Stack direction="row" alignItems="center" style={{ color: '#FFFFFF', fontSize: 'calc(12px + 1vw)'}}>
             <div style={{marginBottom: "5px"}}>
                 Room:
             </div>
@@ -43,22 +43,23 @@ const Room = () => {
                 }}
                 sx={{
                     marginLeft: "10px",
-                    width: "95px",
+                    width:  'calc(70px + 2vw)',
                     backgroundColor: '#4A4A4A',
                     "& .MuiOutlinedInput-root": {
                         "& fieldset": { borderColor: "gray" },
                         "&:hover fieldset": { borderColor: "white" },
                         "&.Mui-focused fieldset": { borderColor: "white" },
                     },
-                    input: { color: "white", letterSpacing: "5px", fontSize: "25px", padding: "0px 10px 0px 10px" },
+                    input: { color: "white", letterSpacing: "5px", fontSize: 'calc(12px + 1vw)', padding: "0px 10px 0px 10px" },
                     }}
             />
             <Button 
                 variant="contained" 
                 onClick={handleEnterClick}
+                style={{ fontSize: 'calc(7px + 0.6vw)' }}
                 sx={{
                     minWidth: "50px",
-                    padding: "5px 0px",
+                    padding: "calc(2px + 0.2vw) 5px",
                     backgroundColor: "#gray"
                 }}
             >

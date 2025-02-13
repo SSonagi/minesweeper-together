@@ -25,7 +25,7 @@ const Info = () => {
 	}, [enableTimer, dispatch]);
 
     return (
-        <div style={{ color: '#FFFFFF', fontSize: '25px', marginLeft: 'auto'}}>
+        <div style={{ color: '#FFFFFF', fontSize: 'calc(15px + 1vw)', marginLeft: 'auto'}}>
             Mines: {mineCount - flagCount} Time: {elapsedTime}
         </div>
     )

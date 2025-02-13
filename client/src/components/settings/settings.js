@@ -26,7 +26,7 @@ const Settings = (
 
     return (
         <div className="setup">
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
+            <FormControl sx={{ m: 1, maxWidth: 120, width: '15vw', minWidth: 85 }}>
                 <InputLabel     
                     sx={{
                         color: 'gray',
