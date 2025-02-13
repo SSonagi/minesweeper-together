@@ -16,7 +16,7 @@ import { DifficultyContext } from './components/settings/Context';
 const socket = io("https://minesweeper-together.onrender.com", {
   withCredentials: true,
   extraHeaders: {
-    "http://minesweepertogether.com": "abcd"
+    "Access-Control-Allow-Origin": "http://minesweepertogether.com"
   }
 }); // Connect to server
 
