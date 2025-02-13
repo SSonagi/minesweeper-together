@@ -13,7 +13,7 @@ import './App.css';
 import { DIFFICULTY } from './constants';
 import { DifficultyContext } from './components/settings/Context';
 
-const socket = io("https://minesweeper-together.onrender.com:4000", {
+const socket = io("https://minesweeper-together.onrender.com", {
   withCredentials: true,
   extraHeaders: {
     "http://minesweepertogether.com": "abcd"
