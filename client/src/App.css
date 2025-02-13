@@ -44,8 +44,9 @@ h1 {
 
 .Credits {
   color: #6e6e6e;
-  bottom: 25px;
   position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .Reset {
@@ -56,4 +57,15 @@ h1 {
   color: #FFFFFF;
   text-decoration: underline;
   cursor: pointer;
+}
+
+.Footer {
+  margin-top: auto;
+  margin-bottom: 20px;
+  display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+  align-items: flex-end;
+  flex-direction: row;
+  width: 95vw;
 }

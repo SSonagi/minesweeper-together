@@ -1,6 +1,6 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { useDispatch } from 'react-redux';
-import { setGame, restartGame } from '../../store/actions';
+import { restartGame } from '../../store/actions';
 import Select from '@mui/material/Select';
 import ListSubheader from '@mui/material/ListSubheader';
 import InputLabel from '@mui/material/InputLabel';
@@ -8,38 +8,21 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import { DifficultyContext } from './Context';
 import './settings.css'
 
-const Settings = () => {
+const Settings = (
+) => {
     const dispatch = useDispatch();	
-    const [difficultyIndex, setDifficultyIndex] = React.useState(0);
-
-    const restart = useCallback((difficulty) => {
-        const difficulties = [
-            [8,8,10],
-            [9,9,10],
-            [10,10,10],
-            [15,13,40],
-            [16,13,40],
-            [15,14,40],
-            [16,14,40],
-            [15,15,40],
-            [16,15,40],
-            [16,16,40],
-            [30,16,99]
-        ];
-		dispatch(setGame(difficulties[difficulty]));
-		dispatch(restartGame());
-    }, [dispatch])
+    const difficultyState = useContext(DifficultyContext);
 
     const onClickRestart = useCallback(() => {
-        restart(difficultyIndex);
-    }, [difficultyIndex, restart]);
+		dispatch(restartGame(difficultyState));
+    }, [difficultyState, dispatch]);
 
     const handleDifficultyChange = useCallback((event) => {
-        setDifficultyIndex(event.target.value);
-        restart(event.target.value);
-    },[restart]);
+        dispatch(restartGame(event.target.value));
+    },[dispatch]);
 
     return (
         <div className="setup">
@@ -57,7 +40,7 @@ const Settings = () => {
                 </InputLabel>
                 <Select 
                     autoWidth
-                    value={difficultyIndex} 
+                    value={difficultyState} 
                     id="difficulty-select" 
                     label="Difficulty"
                     onChange={handleDifficultyChange}

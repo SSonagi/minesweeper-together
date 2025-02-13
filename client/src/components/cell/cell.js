@@ -17,9 +17,12 @@ const cellStyle = {
 
 const Cell = ({
 	x,
-	y
+	y,
+	boardData
 }) => {
-	const board = useSelector(state => state.boardData[y][x]);
+	// console.log(boardData);
+	// console.log("going for x:" + x + " y:" + y); 
+	const board = boardData[y][x];
 	const gameState = useSelector(state => state.gameState);
 	const [playSound] = useSound(OpenCellSound)
 	const dispatch = useDispatch();	

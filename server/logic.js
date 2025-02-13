@@ -1,6 +1,7 @@
-import { CODES } from '../constants';
+import { CODES, DIFFICULTY } from './constants.js';
 
-export const initBoard = (width, height, mineCount) => {
+export const initBoard = (difficulty) => {
+	const [ width, height, mineCount ] = DIFFICULTY[difficulty];
     const indexes = Array.from(Array(width * height).keys());
     const mines = [];
     const board = [];

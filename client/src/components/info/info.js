@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateElapsedTime } from '../../store/actions';
+import { DIFFICULTY } from '../../constants';
 
 const Info = () => {
     const enableTimer = useSelector(state => state.enableTimer);
 	const elapsedTime = useSelector(state => state.elapsedTime);
-    const mineCount = useSelector(state => state.mineCount);
+    const mineCount = useSelector(state => DIFFICULTY[state.difficulty][2]);
     const flagCount = useSelector(state => state.flagCount);
     const dispatch = useDispatch();	
 
@@ -24,7 +25,7 @@ const Info = () => {
 	}, [enableTimer, dispatch]);
 
     return (
-        <div style={{ color: '#FFFFFF', fontSize: '25px'}}>
+        <div style={{ color: '#FFFFFF', fontSize: '25px', marginLeft: 'auto'}}>
             Mines: {mineCount - flagCount} Time: {elapsedTime}
         </div>
     )
