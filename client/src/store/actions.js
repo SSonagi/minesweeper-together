@@ -24,6 +24,7 @@ const gameSlice = createSlice({
             }
             if (state.enableTimer && state.gameState !== GAME.RUN) {
                 state.enableTimer = false;
+                state.elapsedTime = 0;
             }
             state.difficulty = action.payload[2];
             state.boardData = action.payload[3];
