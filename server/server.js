@@ -12,6 +12,9 @@ const httpServer = createServer(app);
 const io = new Server(httpServer, {
     cors: {
         origin: "http://minesweepertogether.com", // React frontend URL
+        methods: ["GET", "POST"],
+        allowedHeaders: ["http://minesweepertogether.com"],
+        credentials: true
     },
 });
   
