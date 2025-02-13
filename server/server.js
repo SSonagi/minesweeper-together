@@ -11,7 +11,8 @@ const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
     cors: {
-        origin: ["http://minesweepertogether.com", "https://minesweepertogether.com"], // React frontend URL
+        origin: ["http://minesweepertogether.com", "https://minesweepertogether.com"],
+        //origin: "http://localhost:3000",
         methods: ["GET", "POST"],
         credentials: true
     },
@@ -43,23 +44,23 @@ const cleanRoom = async (roomNo) => {
     if (clients) {
         updateBoard(roomNo);
     } else {
-        gameState[roomNo] = GAME.READY;
-        boardData[roomNo] = initBoard(0);
-        difficulty[roomNo] = 0;
-        flagCount[roomNo] = 0;
-        openedCellCount[roomNo] = 0;
+        setupRoom(roomNo);
     }
+}
+
+const setupRoom = (roomNo) => {
+    gameState[roomNo] = GAME.READY;
+    boardData[roomNo] = initBoard(0);
+    difficulty[roomNo] = 0;
+    flagCount[roomNo] = 0;
+    openedCellCount[roomNo] = 0;
 }
 
 io.on("connection", (socket) => {
     let roomNo = Math.floor(Math.random() * 9999);
     socket.join(roomNo);
 
-    gameState[roomNo] = GAME.READY;
-    boardData[roomNo] = initBoard(0);
-    difficulty[roomNo] = 0;
-    flagCount[roomNo] = 0;
-    openedCellCount[roomNo] = 0;
+    setupRoom(roomNo);
 
     console.log(`User connected: ${socket.id}, Room number: ${roomNo}`);
     updateBoard(roomNo);
@@ -77,6 +78,9 @@ io.on("connection", (socket) => {
         socket.leave(roomNo);
         cleanRoom(roomNo);
         roomNo = Number(data.roomNo);
+        if (!io.sockets.adapter.rooms.get(roomNo)) {
+            setupRoom(roomNo);
+        }
         socket.join(roomNo);
         updateBoard(roomNo);
     })
