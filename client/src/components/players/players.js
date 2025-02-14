@@ -10,7 +10,7 @@ const Players = () => {
     const players = useSelector(state => state.players);
 
     return (
-        <List sx={{ width: '100%', maxWidth: 300, fontSize: "25px", color: "#FFFFFF", bgcolor: '#696969', paddingLeft: "10px" }}>
+        <List sx={{ width: '100%', maxWidth: 300, fontSize: "25px", color: "#FFFFFF", bgcolor: '#696969', paddingLeft: "10px", marginTop: '15px' }}>
             {players.map((value) => {
                 const labelId = `checkbox-list-label-${value}`;
 

@@ -12,7 +12,7 @@ const httpServer = createServer(app);
 const io = new Server(httpServer, {
     cors: {
         origin: ["http://minesweepertogether.com", "https://minesweepertogether.com"],
-        // origin: "http://localhost:3000",
+        //origin: "http://localhost:3000",
         methods: ["GET", "POST"],
         credentials: true
     },
@@ -25,24 +25,31 @@ let boardData = {};
 let difficulty = {};
 let flagCount = {};
 let openedCellCount = {};
+let userNames = {};
 
 const updateBoard = async (roomNo) => {
-    const clients = Array.from(io.sockets.adapter.rooms.get(roomNo));
-
     io.in(roomNo).emit("updateBoard", [
         roomNo,
         gameState[roomNo],
         difficulty[roomNo],
         boardData[roomNo],
-        flagCount[roomNo],
-        clients
+        flagCount[roomNo]
     ]);
+}
+
+const updatePlayers = async (roomNo) => {
+    const clients = Array.from(io.sockets.adapter.rooms.get(roomNo));
+    let names = [];
+    for (const ids of clients) {
+        names.push(userNames[ids]);
+    }
+    io.in(roomNo).emit("updatePlayers", names);
 }
 
 const cleanRoom = async (roomNo) => {
     const clients = io.sockets.adapter.rooms.get(roomNo);
     if (clients) {
-        updateBoard(roomNo);
+        updatePlayers(roomNo);
     } else {
         setupRoom(roomNo);
     }
@@ -61,9 +68,13 @@ io.on("connection", (socket) => {
     socket.join(roomNo);
 
     setupRoom(roomNo);
-
     console.log(`User connected: ${socket.id}, Room number: ${roomNo}`);
-    updateBoard(roomNo);
+
+    socket.on("login", (data) => {
+        userNames[socket.id] = data.name;
+        updateBoard(roomNo);
+        updatePlayers(roomNo);
+    });
 
     socket.on("restart", (data) => {
         gameState[roomNo] = GAME.READY;
@@ -83,6 +94,7 @@ io.on("connection", (socket) => {
         }
         socket.join(roomNo);
         updateBoard(roomNo);
+        updatePlayers(roomNo);
     })
 
     socket.on("clickCell", (data) => {

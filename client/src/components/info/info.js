@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateElapsedTime } from '../../store/actions';
 import { DIFFICULTY } from '../../constants';
+import './info.css'
 
 const Info = () => {
     const enableTimer = useSelector(state => state.enableTimer);
@@ -25,7 +26,7 @@ const Info = () => {
 	}, [enableTimer, dispatch]);
 
     return (
-        <div style={{ color: '#FFFFFF', fontSize: 'calc(15px + 1vw)', marginLeft: 'auto'}}>
+        <div className='Info'>
             Mines: {mineCount - flagCount} Time: {elapsedTime}
         </div>
     )

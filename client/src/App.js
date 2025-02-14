@@ -1,19 +1,20 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createTheme, ThemeProvider } from '@mui/material';
-import { restartGame, updateBoard } from './store/actions';
+import { restartGame, updateBoard, updatePlayers } from './store/actions';
 import { GAME } from './constants';
 import Board from './components/board/board';
 import Settings from './components/settings/settings';
 import Info from './components/info/info';
 import Room from './components/room/room';
 import Players from './components/players/players';
+import Popup from './components/popup/popup';
 import { io } from 'socket.io-client';
 import './App.css';
 import { DIFFICULTY } from './constants';
 import { DifficultyContext } from './components/settings/Context';
 
-// const socket = io("localhost:4000");
+//const socket = io("localhost:4000");
 
 const socket = io("https://minesweeper-together.onrender.com", {
   withCredentials: true
@@ -32,12 +33,17 @@ function App() {
   const [ difficultyState, setDifficultyState ] = useState(0);
   const gameState = useSelector(state => state.gameState);
   const boardData = useSelector(state => state.boardData);
+  const [ showPopup, setShowPopup ] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
     socket.on("updateBoard", (data) => {
       dispatch(updateBoard(data));
       setDifficultyState(data[2]);
+    })
+
+    socket.on("updatePlayers", (data) => {
+      dispatch(updatePlayers(data));
     })
 
     return () => {
@@ -68,6 +74,9 @@ function App() {
     <ThemeProvider theme={theme}>   
       <DifficultyContext.Provider value={difficultyState}>
         <div className="App">
+          {showPopup && 
+            <Popup setShowPopup={() => setShowPopup(false)}/>
+          }
           <div className='Header'>
             <Room/>
             <Settings/>
@@ -83,9 +92,9 @@ function App() {
             </div>
           </div>
           <div className='Footer'>
-            <Players/>
-            <a className='Credits' href="https://github.com/SSonagi/minesweeper-together">Github</a>
             <Info/>
+            <a className='Credits' href="https://github.com/SSonagi/minesweeper-together">Github</a>
+            <Players/>
           </div>
         </div>
       </DifficultyContext.Provider>     

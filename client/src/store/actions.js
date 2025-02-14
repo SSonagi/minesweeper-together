@@ -29,11 +29,18 @@ const gameSlice = createSlice({
             state.difficulty = action.payload[2];
             state.boardData = action.payload[3];
             state.flagCount = action.payload[4];
-            state.players = action.payload[5];
+        },
+        updatePlayers: (state, action) => {
+            state.players = action.payload;
         },
         joinRoom: (state, action) => {
             server.emit("joinRoom", {
                 roomNo: action.payload
+            });
+        },
+        login: (state, action) => {
+            server.emit("login", {
+                name: action.payload
             });
         },
         restartGame: (state, action) => {
@@ -66,5 +73,5 @@ const gameSlice = createSlice({
 });
 
 const { actions, reducer } = gameSlice
-export const { updateBoard, joinRoom, restartGame, updateElapsedTime, clickCell, rightClickCell } = actions; // Export actions
+export const { updateBoard, updatePlayers, joinRoom, login, restartGame, updateElapsedTime, clickCell, rightClickCell } = actions; // Export actions
 export default reducer; // Export the reducer
