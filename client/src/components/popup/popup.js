@@ -35,7 +35,7 @@ const Popup = ({
 
     return (
         <div className='Barrier'>
-            <div className='Popup'>
+            <form className='Popup' onSubmit={() => onPlay()}>
                 <div className='Username'>
                     Name:
                     <NameField
@@ -53,13 +53,13 @@ const Popup = ({
                     />
                 </div>
                 <Button
+                    type='submit'
                     variant='contained'
                     size='small'
-                    onClick={() => onPlay()}
                 >
                     Play
                 </Button>
-            </div>
+            </form>
         </div>
     )
 }
