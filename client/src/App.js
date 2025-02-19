@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { restartGame, updateBoard, updatePlayers } from './store/actions';
@@ -14,7 +14,7 @@ import './App.css';
 import { DIFFICULTY } from './constants';
 import { DifficultyContext } from './components/settings/Context';
 
-//const socket = io("localhost:4000");
+// const socket = io("localhost:4000");
 
 const socket = io("https://minesweeper-together.onrender.com", {
   withCredentials: true
@@ -34,7 +34,17 @@ function App() {
   const gameState = useSelector(state => state.gameState);
   const boardData = useSelector(state => state.boardData);
   const [ showPopup, setShowPopup ] = useState(true);
+  const [ showError, setShowError ] = useState(false);
   const dispatch = useDispatch();
+  const timer = useRef(null);
+
+  useEffect(() => {
+    return () => { // unmount callback
+      if (timer.current != null) {
+        clearTimeout(timer.current) // clear timer
+      }
+    }
+  }, [])
 
   useEffect(() => {
     socket.on("updateBoard", (data) => {
@@ -44,6 +54,13 @@ function App() {
 
     socket.on("updatePlayers", (data) => {
       dispatch(updatePlayers(data));
+    })
+
+    socket.on("roomFull", () => {
+      setShowError(true);
+      timer.current = setTimeout(() => {
+        setShowError(false)
+      }, 3000);
     })
 
     return () => {
@@ -79,6 +96,11 @@ function App() {
           }
           <div className='Header'>
             <Room/>
+            {showError &&
+              <div className='Error'>
+                That room is full!
+              </div>
+            }
             <Settings/>
           </div>
           <div className='Body'>

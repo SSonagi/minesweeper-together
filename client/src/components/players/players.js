@@ -5,6 +5,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { PLAYERCOLOR } from '../../constants';
 
 const Players = () => {
     const players = useSelector(state => state.players);
@@ -12,7 +13,7 @@ const Players = () => {
     return (
         <List sx={{ width: '100%', maxWidth: 300, fontSize: "25px", color: "#FFFFFF", bgcolor: '#696969', paddingLeft: "10px", marginTop: '15px' }}>
             {players.map((value) => {
-                const labelId = `checkbox-list-label-${value}`;
+                const labelId = `checkbox-list-label-${value[0]}`;
 
                 return (
                 <ListItem
@@ -20,9 +21,9 @@ const Players = () => {
                     disablePadding
                 >
                     <ListItemIcon>
-                        <CircleIcon sx={{ color: "#FFFFFF" }}/>
+                        <CircleIcon sx={{ color: PLAYERCOLOR[value[1]] }}/>
                     </ListItemIcon>
-                    <ListItemText id={labelId} primary={value } />  
+                    <ListItemText id={labelId} style={{ color: PLAYERCOLOR[value[1]] }} primary={value[0]} />  
                 </ListItem>
                 );
             })}

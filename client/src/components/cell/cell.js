@@ -1,8 +1,9 @@
 import React, { memo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { clickCell, rightClickCell } from '../../store/actions';
-import { CODES, GAME } from '../../constants';
+import { CODES, GAME, PLAYERCOLOR } from '../../constants';
 import { styled } from '@mui/material/styles';
+import FlagIcon from '@mui/icons-material/Flag';
 import Button from '@mui/material/Button';
 import useSound from 'use-sound'
 import OpenCellSound from '../../sound/OpenCell.mp3' // Your sound file path here
@@ -25,7 +26,7 @@ const Cell = ({
 	y,
 	boardData
 }) => {
-	// console.log(boardData);
+	//console.log(boardData);
 	// console.log("going for x:" + x + " y:" + y); 
 	const board = boardData[y][x];
 	const gameState = useSelector(state => state.gameState);
@@ -38,16 +39,49 @@ const Cell = ({
 				return '';
 			case CODES.NOTHING:
 				return '';
-			case CODES.FLAG:
-				return '🚩'
-			case CODES.MINE_FLAG:
+			case CODES.FLAG_1:
+				return <FlagIcon style={{ color: PLAYERCOLOR[0] }}/>
+			case CODES.FLAG_2:
+				return <FlagIcon style={{ color: PLAYERCOLOR[1] }}/>
+			case CODES.FLAG_3:
+				return <FlagIcon style={{ color: PLAYERCOLOR[2] }}/>
+			case CODES.FLAG_4:
+				return <FlagIcon style={{ color: PLAYERCOLOR[3] }}/>
+			case CODES.MINE_FLAG_1:
 				switch (gameState) {
 					case GAME.WIN:
 						return '💣';
 					case GAME.LOSE:
 						return '💥';
 					default:
-						return '🚩';
+						return <FlagIcon style={{ color: PLAYERCOLOR[0] }}/>;
+				}
+			case CODES.MINE_FLAG_2:
+				switch (gameState) {
+					case GAME.WIN:
+						return '💣';
+					case GAME.LOSE:
+						return '💥';
+					default:
+						return <FlagIcon style={{ color: PLAYERCOLOR[1] }}/>;
+				}
+			case CODES.MINE_FLAG_3:
+				switch (gameState) {
+					case GAME.WIN:
+						return '💣';
+					case GAME.LOSE:
+						return '💥';
+					default:
+						return <FlagIcon style={{ color: PLAYERCOLOR[2] }}/>;
+				}
+			case CODES.MINE_FLAG_4:
+				switch (gameState) {
+					case GAME.WIN:
+						return '💣';
+					case GAME.LOSE:
+						return '💥';
+					default:
+						return <FlagIcon style={{ color: PLAYERCOLOR[3] }}/>;
 				}
 			case CODES.MINE:
 				switch (gameState) {
@@ -85,7 +119,9 @@ const Cell = ({
 			color='primary'
 			variant={board >= CODES.OPENED ? "outlined" : "contained"}
 			onClick={onClick} 
-			onContextMenu={onRightClick}>{getCell(board)}
+			onContextMenu={onRightClick}
+		>
+			{getCell(board)}
 		</CellButton>
 	);
 };

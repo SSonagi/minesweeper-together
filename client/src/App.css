@@ -28,10 +28,11 @@ h1 {
 .Header {
   display: flex;
 	flex-wrap: wrap;
-	justify-content: space-between;
-  align-items: center;
+	justify-content: flex-start;
+  align-items: flex-start;
   flex-direction: row;
   width: 95vw;
+  margin-top: 10px;
 }
 
 .Body {
@@ -67,4 +68,8 @@ h1 {
   color: #FFFFFF;
   text-decoration: underline;
   cursor: pointer;
+}
+
+.Error {
+  color: #FF0000;
 }

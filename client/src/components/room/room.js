@@ -24,7 +24,7 @@ const Room = () => {
     };
 
     return (
-        <Stack direction="row" alignItems="center" style={{ color: '#FFFFFF', fontSize: 'calc(12px + 1vw)'}}>
+        <Stack direction="row" alignItems="center" style={{ color: '#FFFFFF', fontSize: 'calc(12px + 1vw)', marginRight: '10px'}}>
             <div style={{marginBottom: "5px"}}>
                 Room:
             </div>

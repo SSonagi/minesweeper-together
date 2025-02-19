@@ -1,9 +1,15 @@
 export const CODES = {
 	OPENED: 0,
 	NOTHING: -1,
-	FLAG: -2,
-	MINE: -3,
-	MINE_FLAG: -4,
+	FLAG_1: -2,
+	FLAG_2: -3,
+	FLAG_3: -4,
+	FLAG_4: -5,
+	MINE: -6,
+	MINE_FLAG_1: -7,
+	MINE_FLAG_2: -8,
+	MINE_FLAG_3: -9,
+	MINE_FLAG_4: -10,
 };
 
 export const GAME = {

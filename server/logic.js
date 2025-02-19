@@ -23,15 +23,21 @@ export const initBoard = (difficulty) => {
     return board;   
 };
 
-export const flagCell = (code) => {
+export const flagCell = (code, num) => {
 	switch (code) {
 		case CODES.NOTHING:
-			return CODES.FLAG;
+			return CODES.FLAG_1 - num;
 		case CODES.MINE:
-			return CODES.MINE_FLAG;
-		case CODES.FLAG:
+			return CODES.MINE_FLAG_1 - num;
+		case CODES.FLAG_1:
+		case CODES.FLAG_2:
+		case CODES.FLAG_3:
+		case CODES.FLAG_4:
 			return CODES.NOTHING;
-		case CODES.MINE_FLAG:
+		case CODES.MINE_FLAG_1:
+		case CODES.MINE_FLAG_2:
+		case CODES.MINE_FLAG_3:
+		case CODES.MINE_FLAG_4:
 			return CODES.MINE;
 		default:
 			return code;

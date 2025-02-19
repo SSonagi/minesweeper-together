@@ -25,7 +25,8 @@ let boardData = {};
 let difficulty = {};
 let flagCount = {};
 let openedCellCount = {};
-let userNames = {};
+let players = {};
+let playerNo = {};
 
 const updateBoard = async (roomNo) => {
     io.in(roomNo).emit("updateBoard", [
@@ -41,12 +42,12 @@ const updatePlayers = async (roomNo) => {
     const clients = Array.from(io.sockets.adapter.rooms.get(roomNo));
     let names = [];
     for (const ids of clients) {
-        names.push(userNames[ids]);
+        names.push(players[ids]);
     }
     io.in(roomNo).emit("updatePlayers", names);
 }
 
-const cleanRoom = async (roomNo) => {
+const leaveRoom = async (roomNo) => {
     const clients = io.sockets.adapter.rooms.get(roomNo);
     if (clients) {
         updatePlayers(roomNo);
@@ -61,17 +62,26 @@ const setupRoom = (roomNo) => {
     difficulty[roomNo] = 0;
     flagCount[roomNo] = 0;
     openedCellCount[roomNo] = 0;
+    playerNo[roomNo] = [0,1,2,3];
 }
 
 io.on("connection", (socket) => {
-    let roomNo = Math.floor(Math.random() * 9999);
-    socket.join(roomNo);
+    let roomNo = 0
+    do {
+        roomNo = Math.floor(Math.random() * 9999);
+    } while (boardData[roomNo]);
 
+    socket.join(roomNo);
     setupRoom(roomNo);
+
+    let num = playerNo[roomNo].shift();
+    players[socket.id] = ["", num];
+    playerNo[roomNo].push(num);
+
     console.log(`User connected: ${socket.id}, Room number: ${roomNo}`);
 
     socket.on("login", (data) => {
-        userNames[socket.id] = data.name;
+        players[socket.id][0] = data.name;
         updateBoard(roomNo);
         updatePlayers(roomNo);
     });
@@ -86,15 +96,31 @@ io.on("connection", (socket) => {
     });
 
     socket.on("joinRoom", (data) => {
-        socket.leave(roomNo);
-        cleanRoom(roomNo);
-        roomNo = Number(data.roomNo);
-        if (!io.sockets.adapter.rooms.get(roomNo)) {
-            setupRoom(roomNo);
+        let curr_occupancy = io.sockets.adapter.rooms.get(Number(data.roomNo));
+        if ( curr_occupancy && Array.from(curr_occupancy).length >= 4 ) {
+            io.to(socket.id).emit("roomFull");
+        } else {
+            socket.leave(roomNo);
+
+            playerNo[roomNo].splice(playerNo[roomNo].indexOf(players[socket.id][1]), 1);
+            playerNo[roomNo].unshift(players[socket.id][1]);
+    
+            leaveRoom(roomNo);
+    
+            roomNo = Number(data.roomNo);
+    
+            if (!io.sockets.adapter.rooms.get(roomNo)) {
+                setupRoom(roomNo);
+            }
+    
+            let num = playerNo[roomNo].shift();
+            players[socket.id][1] = num;
+            playerNo[roomNo].push(num);
+    
+            socket.join(roomNo);
+            updateBoard(roomNo);
+            updatePlayers(roomNo);
         }
-        socket.join(roomNo);
-        updateBoard(roomNo);
-        updatePlayers(roomNo);
     })
 
     socket.on("clickCell", (data) => {
@@ -141,15 +167,19 @@ io.on("connection", (socket) => {
     socket.on("rightClick", (data) => {
         const cellCode2 = boardData[roomNo][data.y][data.x];
         if (cellCode2 !== CODES.OPENED) {
-            boardData[roomNo][data.y][data.x] = flagCell(cellCode2);
+            boardData[roomNo][data.y][data.x] = flagCell(cellCode2, players[socket.id][1]);
             flagCount[roomNo] += getFlagCount(cellCode2);
         }   
         updateBoard(roomNo);
     });
 
     socket.on("disconnect", () => {
+        playerNo[roomNo].splice(playerNo[roomNo].indexOf(players[socket.id][1]), 1);
+        playerNo[roomNo].unshift(players[socket.id][1]);
+
         socket.leave(roomNo);
-        cleanRoom(roomNo);
+
+        leaveRoom(roomNo);
         console.log(`User disconnected: ${socket.id}`);
     });
 });
