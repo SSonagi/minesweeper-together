@@ -3,7 +3,7 @@ import { TextField, Button } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { styled } from '@mui/material/styles';
 import { login } from '../../store/actions';
-import './popup.css'
+import './login.css'
 
 const NameField = styled(TextField)({
     '& .MuiFilledInput-root': {
@@ -22,15 +22,15 @@ const NameField = styled(TextField)({
     }
 });
 
-const Popup = ({
-    setShowPopup
+const Login = ({
+    setShowLogin
 }) => {
     const dispatch = useDispatch();	
     const [ name, setName ] = useState("");
     
     const onPlay = () => {
         dispatch(login(name))
-        setShowPopup();
+        setShowLogin();
     };
 
     return (
@@ -64,4 +64,4 @@ const Popup = ({
     )
 }
 
-export default Popup;
+export default Login;

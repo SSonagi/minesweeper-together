@@ -8,7 +8,7 @@ import Settings from './components/settings/settings';
 import Info from './components/info/info';
 import Room from './components/room/room';
 import Players from './components/players/players';
-import Popup from './components/popup/popup';
+import Login from './components/login/login';
 import { io } from 'socket.io-client';
 import './App.css';
 import { DIFFICULTY } from './constants';
@@ -33,7 +33,7 @@ function App() {
   const [ difficultyState, setDifficultyState ] = useState(0);
   const gameState = useSelector(state => state.gameState);
   const boardData = useSelector(state => state.boardData);
-  const [ showPopup, setShowPopup ] = useState(true);
+  const [ showLogin, setShowLogin] = useState(true);
   const [ showError, setShowError ] = useState(false);
   const dispatch = useDispatch();
   const timer = useRef(null);
@@ -91,8 +91,8 @@ function App() {
     <ThemeProvider theme={theme}>   
       <DifficultyContext.Provider value={difficultyState}>
         <div className="App">
-          {showPopup && 
-            <Popup setShowPopup={() => setShowPopup(false)}/>
+          {showLogin && 
+            <Login setShowLogin={() => setShowLogin(false)}/>
           }
           <div className='Header'>
             <Room/>
