@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { joinRoom } from '../../store/actions';
+import { joinRoom } from '../../../store/actions';
 import { TextField, Button, Stack } from "@mui/material";
 
 const Room = () => {

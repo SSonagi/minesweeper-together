@@ -39,3 +39,8 @@ export const PLAYERCOLOR = [
 	'#90EE90',
 	'#FFD580'
 ]
+
+export const MODE = {
+	COOP: "coop",
+	VERSUS: "versus"
+}

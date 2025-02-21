@@ -1,16 +1,17 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createTheme, ThemeProvider } from '@mui/material';
-import { restartGame, updateBoard, updatePlayers } from './store/actions';
+import { restartGame, updateBoard, updatePlayers, startTimer } from './store/actions';
 import { GAME } from './constants';
 import Board from './components/board/board';
 import Settings from './components/settings/settings';
 import Info from './components/info/info';
 import Players from './components/players/players';
 import Login from './components/login/login';
+import CountDown from './components/countdown/countdown';
 import { io } from 'socket.io-client';
 import './App.css';
-import { DIFFICULTY } from './constants';
+import { DIFFICULTY, MODE, PLAYERCOLOR } from './constants';
 import { MainContext } from './components/settings/Context';
 
 // const socket = io("localhost:4000");
@@ -30,11 +31,14 @@ const theme = createTheme({
 function App() {
   const difficulty = useSelector(state => state.difficulty);
   const roomNo = useSelector(state => state.roomNo);
+  const gameMode = useSelector(state => state.gameMode);
+  const players = useSelector(state => state.players);
   const [ difficultyState, setDifficultyState ] = useState(0);
   const gameState = useSelector(state => state.gameState);
   const boardData = useSelector(state => state.boardData);
   const [ showLogin, setShowLogin] = useState(true);
   const [ showError, setShowError ] = useState(false);
+  const [ showTimer, setShowTimer ] = useState(false);
   const dispatch = useDispatch();
   const timer = useRef(null);
 
@@ -63,6 +67,10 @@ function App() {
       }, 3000);
     })
 
+    socket.on("startVersus", () => {
+      setShowTimer(true);
+    });
+
     return () => {
       socket.off("disconnect");
     };
@@ -75,7 +83,19 @@ function App() {
   const getResult = useCallback(() => {
       switch (gameState) {
         case GAME.WIN:
-          return 'You Win!';
+          switch (gameMode) {
+            case MODE.COOP:
+              return 'You Win!';
+            case MODE.VERSUS:
+              let winner = players.toSorted((player1, player2) => player2[2] - player1[2])[0];
+              return (
+                <div style={{ color: PLAYERCOLOR[winner[1]] }}>
+                  {winner[0]} wins!
+                </div>
+              );
+              default:
+          }
+          break;
         case GAME.LOSE:
           return (
             <button className='Reset' onClick={tryAgain}>
@@ -85,15 +105,22 @@ function App() {
         default:
           return '';
       }
-    }, [gameState, tryAgain]);
+    }, [gameState, tryAgain, players, gameMode]);
 
   return (
     <ThemeProvider theme={theme}>   
       <MainContext.Provider value={[difficultyState, showError]}>
         <div className="App">
-          {showLogin && 
+          { showLogin && 
             <Login setShowLogin={() => setShowLogin(false)}/>
           } 
+          { showTimer &&
+            <CountDown onCountDownEnd={() => {
+                setShowTimer(false)
+                dispatch(startTimer());
+              }
+            }/>
+          }
           <div className='Header'>
             Room: {roomNo}            
             <Settings/>
@@ -105,7 +132,9 @@ function App() {
               style={{
                 width: String(DIFFICULTY[difficulty][0] * 40 + DIFFICULTY[difficulty][0]) + 'px'
               }} 
-              className='Result'>{getResult()}
+              className='Result'
+            >
+              {getResult()}
             </div>
           </div>
           <div className='Footer'>

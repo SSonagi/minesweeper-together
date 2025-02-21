@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { CODES, GAME } from '../constants';
+import { CODES, GAME, MODE } from '../constants';
 import { server } from '../App';
 
 const gameSlice = createSlice({
@@ -14,6 +14,7 @@ const gameSlice = createSlice({
         openedCellCount: 0,
         roomNo: 0,
         players: [],
+        gameMode: MODE.COOP
     },
     reducers: {
         updateBoard: (state, action) => {
@@ -49,9 +50,17 @@ const gameSlice = createSlice({
             });
             state.enableTimer = false;
             state.elapsedTime = 0;
+            state.gameMode = GAME.COOP;
+        },
+        startVersus: (state) => {
+            server.emit("versus");
+            state.gameMode = MODE.VERSUS;
         },
         updateElapsedTime: (state) => {
             state.elapsedTime++;
+        },
+        startTimer: (state) => {
+            state.enableTimer = true;
         },
         clickCell: (state, action) => {
             // Start timer if click on cell
@@ -73,5 +82,5 @@ const gameSlice = createSlice({
 });
 
 const { actions, reducer } = gameSlice
-export const { updateBoard, updatePlayers, joinRoom, login, restartGame, updateElapsedTime, clickCell, rightClickCell } = actions; // Export actions
+export const { updateBoard, updatePlayers, joinRoom, login, restartGame, startVersus, updateElapsedTime, startTimer, clickCell, rightClickCell } = actions; // Export actions
 export default reducer; // Export the reducer

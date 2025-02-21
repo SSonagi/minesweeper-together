@@ -71,7 +71,7 @@ const setupRoom = (roomNo) => {
     flagCount[roomNo] = 0;
     openedCellCount[roomNo] = 0;
     playerNo[roomNo] = [0,1,2,3];
-    boardMode[roomNo] = "versus";
+    boardMode[roomNo] = "coop";
 }
 
 io.on("connection", (socket) => {
@@ -101,6 +101,7 @@ io.on("connection", (socket) => {
         boardData[roomNo] = initBoard(difficulty[roomNo]);
         flagCount[roomNo] = 0;
         openedCellCount[roomNo] = 0;
+        boardMode[roomNo] = "coop";
         updateBoard(roomNo);
         resetScores(roomNo);
         updatePlayers(roomNo);
@@ -135,6 +136,11 @@ io.on("connection", (socket) => {
             updatePlayers(roomNo);
         }
     })
+
+    socket.on("versus", () => {
+        boardMode[roomNo] = "versus";
+        io.in(roomNo).emit("startVersus");
+    });
 
     socket.on("clickCell", (data) => {
         const x = data.x;
