@@ -35,7 +35,8 @@ const updateBoard = async (roomNo) => {
         gameState[roomNo],
         difficulty[roomNo],
         boardData[roomNo],
-        flagCount[roomNo]
+        flagCount[roomNo],
+        boardMode[roomNo]
     ]);
 }
 
@@ -140,6 +141,7 @@ io.on("connection", (socket) => {
     socket.on("versus", () => {
         boardMode[roomNo] = "versus";
         io.in(roomNo).emit("startVersus");
+        updateBoard(roomNo);
     });
 
     socket.on("clickCell", (data) => {

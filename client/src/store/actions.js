@@ -30,6 +30,7 @@ const gameSlice = createSlice({
             state.difficulty = action.payload[2];
             state.boardData = action.payload[3];
             state.flagCount = action.payload[4];
+            state.gameMode = action.payload[5];
         },
         updatePlayers: (state, action) => {
             state.players = action.payload;
@@ -50,11 +51,9 @@ const gameSlice = createSlice({
             });
             state.enableTimer = false;
             state.elapsedTime = 0;
-            state.gameMode = MODE.COOP;
         },
         startVersus: (state) => {
             server.emit("versus");
-            state.gameMode = MODE.VERSUS;
         },
         updateElapsedTime: (state) => {
             state.elapsedTime++;
