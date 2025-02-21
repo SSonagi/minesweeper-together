@@ -69,7 +69,10 @@ export const expandCell = (boardData, x, y) => {
 
 		mineCount = aroundCode.filter(v => [
 			CODES.MINE,
-			CODES.MINE_FLAG,
+			CODES.MINE_FLAG_1,
+			CODES.MINE_FLAG_2,
+			CODES.MINE_FLAG_3,
+			CODES.MINE_FLAG_4
 		].includes(v)).length;
 
 		return mineCount;
