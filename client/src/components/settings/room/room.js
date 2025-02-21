@@ -14,7 +14,6 @@ const Room = () => {
     };
 
     const handleEnterClick = () => {
-        console.log("Entering room:", room);
         dispatch(joinRoom(room));
     };
 
