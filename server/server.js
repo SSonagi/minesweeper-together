@@ -11,8 +11,8 @@ const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
     cors: {
-        //origin: ["http://minesweepertogether.com", "https://minesweepertogether.com"],
-        origin: "http://localhost:3000",
+        origin: ["http://minesweepertogether.com", "https://minesweepertogether.com"],
+        // origin: "http://localhost:3000",
         methods: ["GET", "POST"],
         credentials: true
     },
@@ -27,6 +27,7 @@ let flagCount = {};
 let openedCellCount = {};
 let players = {};
 let playerNo = {};
+let boardMode = {};
 
 const updateBoard = async (roomNo) => {
     io.in(roomNo).emit("updateBoard", [
@@ -47,6 +48,13 @@ const updatePlayers = async (roomNo) => {
     io.in(roomNo).emit("updatePlayers", names);
 }
 
+const resetScores = async (roomNo) => {
+    const clients = Array.from(io.sockets.adapter.rooms.get(roomNo));
+    for (const ids of clients) {
+        players[ids][2] = 0;
+    }
+}
+
 const leaveRoom = async (roomNo) => {
     const clients = io.sockets.adapter.rooms.get(roomNo);
     if (clients) {
@@ -63,6 +71,7 @@ const setupRoom = (roomNo) => {
     flagCount[roomNo] = 0;
     openedCellCount[roomNo] = 0;
     playerNo[roomNo] = [0,1,2,3];
+    boardMode[roomNo] = "versus";
 }
 
 io.on("connection", (socket) => {
@@ -75,7 +84,7 @@ io.on("connection", (socket) => {
     setupRoom(roomNo);
 
     let num = playerNo[roomNo].shift();
-    players[socket.id] = ["", num];
+    players[socket.id] = ["", num, 0];
     playerNo[roomNo].push(num);
 
     console.log(`User connected: ${socket.id}, Room number: ${roomNo}`);
@@ -93,6 +102,8 @@ io.on("connection", (socket) => {
         flagCount[roomNo] = 0;
         openedCellCount[roomNo] = 0;
         updateBoard(roomNo);
+        resetScores(roomNo);
+        updatePlayers(roomNo);
     });
 
     socket.on("joinRoom", (data) => {
@@ -104,6 +115,8 @@ io.on("connection", (socket) => {
 
             playerNo[roomNo].splice(playerNo[roomNo].indexOf(players[socket.id][1]), 1);
             playerNo[roomNo].unshift(players[socket.id][1]);
+
+            players[socket.id][2] = 0;
     
             leaveRoom(roomNo);
     
@@ -131,12 +144,24 @@ io.on("connection", (socket) => {
         
         const openCell = (code, x, y) => {
             if (code === CODES.MINE) {
-                gameState[roomNo] = GAME.LOSE;
+                switch(boardMode[roomNo]) {
+                    case "coop":
+                        gameState[roomNo] = GAME.LOSE;
+                        break;
+                    case "versus":
+                        boardData[roomNo][y][x] = flagCell(cellCode, players[socket.id][1]);
+                        flagCount[roomNo] += getFlagCount(cellCode);
+
+                        players[socket.id][2] -= 200;
+                        break;
+                }
             }
             else if (code === CODES.NOTHING) {
                 const expandResult = expandCell(boardData[roomNo], x, y);
                 boardData[roomNo] = expandResult.boardData;
                 openedCellCount[roomNo] += expandResult.openedCellCount;
+
+                players[socket.id][2] += 10 * expandResult.openedCellCount;
 
                 if (DIFFICULTY[difficulty[roomNo]][0] * DIFFICULTY[difficulty[roomNo]][1] - DIFFICULTY[difficulty[roomNo]][2] === openedCellCount[roomNo]) {
                     gameState[roomNo] = GAME.WIN;
@@ -161,12 +186,17 @@ io.on("connection", (socket) => {
         else {
             openCell(cellCode, x, y);
         }
+        updatePlayers(roomNo);
         updateBoard(roomNo);
     });
 
     socket.on("rightClick", (data) => {
         const cellCode2 = boardData[roomNo][data.y][data.x];
         if (cellCode2 !== CODES.OPENED) {
+            if (cellCode2 === CODES.MINE) {
+                players[socket.id][2] += 100;
+                updatePlayers(roomNo);
+            }
             boardData[roomNo][data.y][data.x] = flagCell(cellCode2, players[socket.id][1]);
             flagCount[roomNo] += getFlagCount(cellCode2);
         }   

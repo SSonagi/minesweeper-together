@@ -49,19 +49,19 @@ const Difficulty = (
                 }}
             >
                 <ListSubheader sx={{ color: 'white', bgcolor: "#2B2B2B" }}>Easy - 10 Mines</ListSubheader>
-                <MenuItem value={0}>8 x 8 - 15.6%</MenuItem>
-                <MenuItem value={1}>9 x 9 - 12.3%</MenuItem>
-                <MenuItem value={2}>10 x 10 - 10%</MenuItem>
+                <MenuItem value={0}>8 x 8</MenuItem>
+                <MenuItem value={1}>9 x 9</MenuItem>
+                <MenuItem value={2}>10 x 10</MenuItem>
                 <ListSubheader sx={{ color: 'white', bgcolor: "#2B2B2B" }}>Medium - 40 Mines</ListSubheader>
-                <MenuItem value={3}>15 x 13 - 20.5%</MenuItem>
-                <MenuItem value={4}>16 x 13 - 19.2%</MenuItem>
-                <MenuItem value={5}>15 x 14 - 19.0%</MenuItem>
-                <MenuItem value={6}>16 x 14 - 17.9%</MenuItem>
-                <MenuItem value={7}>15 x 15 - 17.8%</MenuItem>
-                <MenuItem value={8}>16 x 15 - 16.7%</MenuItem>
-                <MenuItem value={9}>16 x 16 - 15.6%</MenuItem>
+                <MenuItem value={3}>15 x 13</MenuItem>
+                <MenuItem value={4}>16 x 13</MenuItem>
+                <MenuItem value={5}>15 x 14</MenuItem>
+                <MenuItem value={6}>16 x 14</MenuItem>
+                <MenuItem value={7}>15 x 15</MenuItem>
+                <MenuItem value={8}>16 x 15</MenuItem>
+                <MenuItem value={9}>16 x 16</MenuItem>
                 <ListSubheader sx={{ color: 'white', bgcolor: "#2B2B2B" }}>Hard - 99 Mines</ListSubheader>
-                <MenuItem value={10}>30 x 16 - 20.6%</MenuItem>
+                <MenuItem value={10}>30 x 16</MenuItem>
             </Select>
         </FormControl>
     );

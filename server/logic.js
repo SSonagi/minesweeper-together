@@ -48,8 +48,11 @@ export const getFlagCount = (code) => {
 	switch (code) {
 		case CODES.MINE:
 			return 1;
-		case CODES.MINE_FLAG:
-			return -1;
+		case CODES.MINE_FLAG_1:
+		case CODES.MINE_FLAG_2:
+		case CODES.MINE_FLAG_3:
+		case CODES.MINE_FLAG_4:
+				return -1;
 		default:
 			return 0;
 	}

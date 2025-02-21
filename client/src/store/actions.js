@@ -31,7 +31,6 @@ const gameSlice = createSlice({
             state.flagCount = action.payload[4];
         },
         updatePlayers: (state, action) => {
-            console.log(action.payload);
             state.players = action.payload;
         },
         joinRoom: (state, action) => {

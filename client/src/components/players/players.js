@@ -20,10 +20,10 @@ const Players = () => {
                     key={value}
                     disablePadding
                 >
-                    <ListItemIcon>
+                    <ListItemIcon sx={{ minWidth: '30px' }}>
                         <CircleIcon sx={{ color: PLAYERCOLOR[value[1]], fontSize: '18px' }}/>
                     </ListItemIcon>
-                    <ListItemText id={labelId} style={{ color: PLAYERCOLOR[value[1]] }} primary={value[0]} />  
+                    <ListItemText id={labelId} style={{ color: PLAYERCOLOR[value[1]] }} primary={`${value[0]} - ${value[2]}pts`} />  
                 </ListItem>
                 );
             })}
