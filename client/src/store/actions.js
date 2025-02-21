@@ -50,7 +50,7 @@ const gameSlice = createSlice({
             });
             state.enableTimer = false;
             state.elapsedTime = 0;
-            state.gameMode = GAME.COOP;
+            state.gameMode = MODE.COOP;
         },
         startVersus: (state) => {
             server.emit("versus");
