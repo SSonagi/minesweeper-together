@@ -1,3 +1,3 @@
 import { createContext } from "react";
 
-export const DifficultyContext = createContext(0);
+export const MainContext = createContext(0);

@@ -35,7 +35,7 @@ const Login = ({
 
     return (
         <div className='Barrier'>
-            <form className='Popup' onSubmit={() => onPlay()}>
+            <form className='Login' onSubmit={() => onPlay()}>
                 <div className='Username'>
                     Name:
                     <NameField

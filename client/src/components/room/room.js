@@ -1,16 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { joinRoom } from '../../store/actions';
 import { TextField, Button, Stack } from "@mui/material";
 
 const Room = () => {
-    const roomNo = useSelector(state => state.roomNo);
-    const [room, setRoom] = useState(roomNo);
+    const [room, setRoom] = useState();
     const dispatch = useDispatch();	
-
-    useEffect(() => {
-        setRoom(roomNo);
-    }, [roomNo]);
 
     const handleChange = (e) => {
         // Allow only 4 digits
@@ -25,9 +20,6 @@ const Room = () => {
 
     return (
         <Stack direction="row" alignItems="center" style={{ color: '#FFFFFF', fontSize: 'calc(12px + 1vw)', marginRight: '10px'}}>
-            <div style={{marginBottom: "5px"}}>
-                Room:
-            </div>
             <TextField
                 variant="filled"
                 size="small"
@@ -42,7 +34,6 @@ const Room = () => {
                     maxLength: 4,
                 }}
                 sx={{
-                    marginLeft: "10px",
                     width:  'calc(70px + 2vw)',
                     backgroundColor: '#4A4A4A',
                     "& .MuiOutlinedInput-root": {
@@ -56,7 +47,7 @@ const Room = () => {
             <Button 
                 variant="contained" 
                 onClick={handleEnterClick}
-                style={{ fontSize: 'calc(7px + 0.6vw)' }}
+                style={{ fontSize: 'calc(3px + 0.6vw)' }}
                 sx={{
                     minWidth: "50px",
                     padding: "calc(2px + 0.2vw) 5px",

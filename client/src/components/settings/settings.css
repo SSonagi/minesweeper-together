@@ -6,3 +6,40 @@
     flex-direction: row;
     margin-left: auto;
 }
+
+.Settings {
+    position:absolute;
+    z-index: 1;
+    top: 60px;
+    right: 2.5vw;
+    width: 180px;
+    height: 170px;
+    background-color: #696969; /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 20px;
+    flex-direction: column;
+    color: #FFFFFF;
+    gap: 2px;
+    font-size: calc(8px + 0.5vw);
+    border-radius: 10px;
+    -webkit-box-shadow: 0 0 10px #fff;
+    box-shadow: 0px 0px 3px 3px rgba(102, 102, 102, 0.5); /*any color you want*/
+}
+
+.Difficulty {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.Title {
+    width: 100%;
+    font-size: calc(8px + 1vw);
+}
+
+.Error {
+    color: #FF0000;
+}

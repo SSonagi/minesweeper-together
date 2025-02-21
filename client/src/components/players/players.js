@@ -11,7 +11,7 @@ const Players = () => {
     const players = useSelector(state => state.players);
 
     return (
-        <List sx={{ width: '100%', maxWidth: 300, fontSize: "25px", color: "#FFFFFF", bgcolor: '#696969', paddingLeft: "10px", marginTop: '15px' }}>
+        <List sx={{ width: '100%', maxWidth: 250, fontSize: "25px", color: "#FFFFFF", bgcolor: '#696969', paddingLeft: "15px", marginTop: '15px' }}>
             {players.map((value) => {
                 const labelId = `checkbox-list-label-${value[0]}`;
 
@@ -21,7 +21,7 @@ const Players = () => {
                     disablePadding
                 >
                     <ListItemIcon>
-                        <CircleIcon sx={{ color: PLAYERCOLOR[value[1]] }}/>
+                        <CircleIcon sx={{ color: PLAYERCOLOR[value[1]], fontSize: '18px' }}/>
                     </ListItemIcon>
                     <ListItemText id={labelId} style={{ color: PLAYERCOLOR[value[1]] }} primary={value[0]} />  
                 </ListItem>

@@ -6,19 +6,18 @@ import { GAME } from './constants';
 import Board from './components/board/board';
 import Settings from './components/settings/settings';
 import Info from './components/info/info';
-import Room from './components/room/room';
 import Players from './components/players/players';
 import Login from './components/login/login';
 import { io } from 'socket.io-client';
 import './App.css';
 import { DIFFICULTY } from './constants';
-import { DifficultyContext } from './components/settings/Context';
+import { MainContext } from './components/settings/Context';
 
-// const socket = io("localhost:4000");
+const socket = io("localhost:4000");
 
-const socket = io("https://minesweeper-together.onrender.com", {
-  withCredentials: true
-}); // Connect to server
+// const socket = io("https://minesweeper-together.onrender.com", {
+//   withCredentials: true
+// }); // Connect to server
 
 const theme = createTheme({
   palette: {
@@ -30,6 +29,7 @@ const theme = createTheme({
 
 function App() {
   const difficulty = useSelector(state => state.difficulty);
+  const roomNo = useSelector(state => state.roomNo);
   const [ difficultyState, setDifficultyState ] = useState(0);
   const gameState = useSelector(state => state.gameState);
   const boardData = useSelector(state => state.boardData);
@@ -89,18 +89,13 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>   
-      <DifficultyContext.Provider value={difficultyState}>
+      <MainContext.Provider value={[difficultyState, showError]}>
         <div className="App">
           {showLogin && 
             <Login setShowLogin={() => setShowLogin(false)}/>
-          }
+          } 
           <div className='Header'>
-            <Room/>
-            {showError &&
-              <div className='Error'>
-                That room is full!
-              </div>
-            }
+            Room: {roomNo}            
             <Settings/>
           </div>
           <div className='Body'>
@@ -119,7 +114,7 @@ function App() {
             <Players/>
           </div>
         </div>
-      </DifficultyContext.Provider>     
+      </MainContext.Provider>     
     </ThemeProvider>
   );
 }
