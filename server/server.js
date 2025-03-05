@@ -11,8 +11,8 @@ const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
     cors: {
-        origin: ["http://minesweepertogether.com", "https://minesweepertogether.com"],
-        // origin: "http://localhost:3000",
+        // origin: ["http://minesweepertogether.com", "https://minesweepertogether.com"],
+        origin: "http://localhost:3000",
         methods: ["GET", "POST"],
         credentials: true
     },
@@ -78,7 +78,7 @@ const setupRoom = (roomNo) => {
 io.on("connection", (socket) => {
     let roomNo = 0
     do {
-        roomNo = Math.floor(Math.random() * 9999);
+        roomNo = Math.random().toString(36).slice(2);
     } while (boardData[roomNo]);
 
     socket.join(roomNo);
@@ -88,7 +88,7 @@ io.on("connection", (socket) => {
     players[socket.id] = ["", num, 0];
     playerNo[roomNo].push(num);
 
-    console.log(`User connected: ${socket.id}, Room number: ${roomNo}`);
+    console.log(`User connected: ${socket.id}, Room code: ${roomNo}`);
 
     socket.on("login", (data) => {
         players[socket.id][0] = data.name;
@@ -109,7 +109,8 @@ io.on("connection", (socket) => {
     });
 
     socket.on("joinRoom", (data) => {
-        let curr_occupancy = io.sockets.adapter.rooms.get(Number(data.roomNo));
+        console.log(data.roomNo);
+        let curr_occupancy = io.sockets.adapter.rooms.get(data.roomNo);
         if ( curr_occupancy && Array.from(curr_occupancy).length >= 4 ) {
             io.to(socket.id).emit("roomFull");
         } else {
@@ -122,7 +123,7 @@ io.on("connection", (socket) => {
     
             leaveRoom(roomNo);
     
-            roomNo = Number(data.roomNo);
+            roomNo = data.roomNo;
     
             if (!io.sockets.adapter.rooms.get(roomNo)) {
                 setupRoom(roomNo);

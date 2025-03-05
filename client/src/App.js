@@ -4,7 +4,6 @@ import { createTheme, ThemeProvider } from '@mui/material';
 import { restartGame, updateBoard, updatePlayers, startTimer } from './store/actions';
 import { GAME } from './constants';
 import Board from './components/board/board';
-import Settings from './components/settings/settings';
 import Info from './components/info/info';
 import Players from './components/players/players';
 import Login from './components/login/login';
@@ -13,12 +12,15 @@ import { io } from 'socket.io-client';
 import './App.css';
 import { DIFFICULTY, MODE, PLAYERCOLOR } from './constants';
 import { MainContext } from './components/settings/Context';
+import Room from './components/room/room';
+import Difficulty from './components/difficulty/difficulty';
+import Title from './images/Title.png';
 
-// const socket = io("localhost:4000");
+const socket = io("localhost:4000");
 
-const socket = io("https://minesweeper-together.onrender.com", {
-  withCredentials: true
-}); // Connect to server
+// const socket = io("https://minesweeper-together.onrender.com", {
+//   withCredentials: true
+// }); // Connect to server
 
 const theme = createTheme({
   palette: {
@@ -30,7 +32,6 @@ const theme = createTheme({
 
 function App() {
   const difficulty = useSelector(state => state.difficulty);
-  const roomNo = useSelector(state => state.roomNo);
   const gameMode = useSelector(state => state.gameMode);
   const players = useSelector(state => state.players);
   const [ difficultyState, setDifficultyState ] = useState(0);
@@ -103,44 +104,52 @@ function App() {
             </button>
           );
         default:
-          return '';
+          return (
+            <button className='Reset' onClick={tryAgain}>
+              Reset
+            </button>
+          );
       }
     }, [gameState, tryAgain, players, gameMode]);
 
   return (
     <ThemeProvider theme={theme}>   
       <MainContext.Provider value={[difficultyState, showError]}>
-        <div className="App">
+        <div className='App'>
           { showLogin && 
             <Login setShowLogin={() => setShowLogin(false)}/>
           } 
-          { showTimer &&
-            <CountDown onCountDownEnd={() => {
-                setShowTimer(false)
-                dispatch(startTimer());
-              }
-            }/>
-          }
-          <div className='Header'>
-            Room: {roomNo}            
-            <Settings/>
-          </div>
-          <div className='Body'>
-            <h1>MINESWEEPER TOGETHER</h1>
-            <Board difficulty={difficulty} boardData={boardData}/>
-            <div 
-              style={{
-                width: String(DIFFICULTY[difficulty][0] * 40 + DIFFICULTY[difficulty][0]) + 'px'
-              }} 
-              className='Result'
-            >
-              {getResult()}
+          <div className="Main">
+            { showTimer &&
+              <CountDown onCountDownEnd={() => {
+                  setShowTimer(false)
+                  dispatch(startTimer());
+                }
+              }/>
+            }
+            <div className='Left'>
+              <img className='Title' src={Title}/>
             </div>
-          </div>
-          <div className='Footer'>
-            <Info/>
-            <a className='Credits' href="https://github.com/SSonagi/minesweeper-together">Github</a>
-            <Players/>
+            <div className='Center'>
+              <Info/>
+              <Board difficulty={difficulty} boardData={boardData}/>
+              <div 
+                style={{
+                  width: String(DIFFICULTY[difficulty][0] * 40 + DIFFICULTY[difficulty][0]) + 'px'
+                }} 
+                className='Result'
+              >
+                {getResult()}
+              </div>
+              <a className='Credits' href="https://github.com/SSonagi/minesweeper-together">Github</a>
+            </div>
+            <div className='Right'>
+              <div className='Settings'>
+                <Room/>
+                <Difficulty/>
+              </div>
+              <Players/>
+            </div>
           </div>
         </div>
       </MainContext.Provider>     

@@ -27,7 +27,8 @@ const Info = () => {
 
     return (
         <div className='Info'>
-            Mines: {mineCount - flagCount} Time: {elapsedTime}
+			<div style={{ paddingLeft: '4px' }}>Mines: {mineCount - flagCount}</div>
+			<div style={{ paddingRight: '4px' }}>Time: {elapsedTime}</div>
         </div>
     )
 }

@@ -1,73 +1,77 @@
 .wrapper, html, body {
   height: 100%;
   margin: 0;
-  background-color: #2B2B2B;
+  background-color: #212121;
 }
 
 .App {
-  text-align: center;
   display: flex;
-	justify-content: space-between;
-  align-items: center;
   flex-direction: column;
   height: 100vh;
 }
 
-h1 {
+.Main {
+  margin: 1rem;
+  display: grid;
+  grid-template-areas: "left center right";
+  grid-template-columns: minmax(15rem,1fr) auto minmax(15rem,1fr);
+  grid-gap: 1rem;
+  box-sizing: border-box;
+  min-width: fit-content;
+  font-size: 18px;
+  height: 100%;
   color: whitesmoke;
-  margin-top: 0;
-  margin-bottom: 5vh;
 }
 
-.Result {
-  margin-top: 10px;
-  color: #FFFFFF;
-  text-align: end;
+.Title {
+  width: calc(300px + 12vw);
 }
 
-.Header {
+.Left {
+  grid-area: left;
   display: flex;
-	flex-wrap: wrap;
-	justify-content: flex-start;
-  align-items: flex-start;
-  flex-direction: row;
-  width: 95vw;
-  margin-top: 10px;
-  color: #FFFFFF;
-  font-size: calc(12px + 1vw);
+  flex-direction: column;
 }
 
-.Body {
+.Center {
+  grid-area: center;
   display: flex;
 	justify-content: center;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 10px;
 }
 
-.Footer {
-  margin-bottom: 20px;
+.Right {
+  grid-area: right;
   display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
+	justify-content: space-between;
   align-items: flex-end;
-  flex-direction: row;
-  width: 95vw;
+  flex-direction: column;
+}
+
+.Settings {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.Result {
+  text-align: end;
+}
+
+.Reset {
+  background: none;
+  border: none;
+  padding-right: 4px;
+  color: whitesmoke;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .Credits {
   color: #6e6e6e;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.Reset {
-  background: none!important;
-  border: none;
-  padding: 0!important;
-  font-family: arial, sans-serif;
-  color: #FFFFFF;
-  text-decoration: underline;
-  cursor: pointer;
+  position: fixed;
+  bottom: 1rem;
 }

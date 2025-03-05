@@ -5,8 +5,6 @@ import { restartGame, startVersus } from '../../store/actions';
 import IconButton from '@mui/material/IconButton';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import SettingsIcon from '@mui/icons-material/Settings';
-import Difficulty from './difficulty/difficulty';
-import Room from './room/room';
 import { MainContext } from './Context';
 import './settings.css'
 
@@ -41,7 +39,10 @@ const Settings = (
                 <Button
                     variant='contained'
                     size='small'
-                    style={{color: '#FFFFFF', backgroundColor: '#FF5B61'}}
+                    style={{
+                        color: '#FFFFFF', 
+                        backgroundColor: '#FF5B61'
+                    }}
                     onClick={onClickVersus}
                 >
                     START VERSUS
@@ -56,9 +57,6 @@ const Settings = (
             { showSettings && 
                 <div className='Settings'>
                     Change Difficulty: 
-                    <Difficulty/>
-                    Join a Different Room?
-                    <Room/>
                     { showError &&
                         <div className='Error'>
                             That room is full!

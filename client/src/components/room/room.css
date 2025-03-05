@@ -1,0 +1,9 @@
+.Room {
+    display: flex;
+    flex-direction: column;
+    padding: 1.3rem;
+    gap: 1rem;
+    background-color: #373737;
+    border-radius: 25px;
+    font-weight: 700;
+}

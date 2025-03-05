@@ -1,16 +1,7 @@
 .Info {
-    color: #FFFFFF;
-    font-size: calc(15px + 1vw);
-}
-
-@media (max-width:487px) {
-    .Info {
-        margin-right: 0;
-    }
-}
-
-@media (min-width:487px) {
-    .Info {
-        margin-right: auto;
-    }
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
 }
