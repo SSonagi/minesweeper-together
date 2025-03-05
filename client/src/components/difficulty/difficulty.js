@@ -5,7 +5,7 @@ import Select from '@mui/material/Select';
 import ListSubheader from '@mui/material/ListSubheader';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import { MainContext } from '../settings/Context';
+import { MainContext } from '../../Context';
 import './difficulty.css';
 
 const Difficulty = (

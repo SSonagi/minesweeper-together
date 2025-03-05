@@ -11,16 +11,16 @@ import CountDown from './components/countdown/countdown';
 import { io } from 'socket.io-client';
 import './App.css';
 import { DIFFICULTY, MODE, PLAYERCOLOR } from './constants';
-import { MainContext } from './components/settings/Context';
+import { MainContext } from './Context';
 import Room from './components/room/room';
 import Difficulty from './components/difficulty/difficulty';
 import Title from './images/Title.png';
 
-const socket = io("localhost:4000");
+// const socket = io("localhost:4000");
 
-// const socket = io("https://minesweeper-together.onrender.com", {
-//   withCredentials: true
-// }); // Connect to server
+const socket = io("https://minesweeper-together.onrender.com", {
+  withCredentials: true
+}); // Connect to server
 
 const theme = createTheme({
   palette: {
@@ -34,12 +34,14 @@ function App() {
   const difficulty = useSelector(state => state.difficulty);
   const gameMode = useSelector(state => state.gameMode);
   const players = useSelector(state => state.players);
-  const [ difficultyState, setDifficultyState ] = useState(0);
   const gameState = useSelector(state => state.gameState);
   const boardData = useSelector(state => state.boardData);
+
+  const [ difficultyState, setDifficultyState ] = useState(0);
   const [ showLogin, setShowLogin] = useState(true);
   const [ showError, setShowError ] = useState(false);
   const [ showTimer, setShowTimer ] = useState(false);
+  
   const dispatch = useDispatch();
   const timer = useRef(null);
 
