@@ -10,17 +10,17 @@ import Login from './components/login/login';
 import CountDown from './components/countdown/countdown';
 import { io } from 'socket.io-client';
 import './App.css';
-import { DIFFICULTY, MODE, PLAYERCOLOR } from './constants';
+import { MODE, PLAYERCOLOR } from './constants';
 import { MainContext } from './Context';
 import Room from './components/room/room';
 import Difficulty from './components/difficulty/difficulty';
 import Title from './images/Title.png';
 
-// const socket = io("localhost:4000");
+const socket = io("localhost:4000");
 
-const socket = io("https://minesweeper-together.onrender.com", {
-  withCredentials: true
-}); // Connect to server
+// const socket = io("https://minesweeper-together.onrender.com", {
+//   withCredentials: true
+// }); // Connect to server
 
 const theme = createTheme({
   palette: {
@@ -83,36 +83,49 @@ function App() {
     dispatch(restartGame(difficultyState));
   }, [dispatch, difficultyState]);
 
+  const getReset = useCallback(() => {
+    switch (gameState) {
+      case GAME.WIN:
+        return (
+          <button className='Reset' onClick={tryAgain}>
+            Go Again?
+          </button>
+        );
+      case GAME.LOSE:
+        return (
+          <button className='Reset' onClick={tryAgain}>
+            Try Again?
+          </button>
+        );
+      default:
+        return (
+          <button className='Reset' onClick={tryAgain}>
+            Reset
+          </button>
+        );
+    }
+  }, [gameState, tryAgain]);
+
   const getResult = useCallback(() => {
-      switch (gameState) {
-        case GAME.WIN:
-          switch (gameMode) {
-            case MODE.COOP:
-              return 'You Win!';
-            case MODE.VERSUS:
-              let winner = players.toSorted((player1, player2) => player2[2] - player1[2])[0];
-              return (
-                <div style={{ color: PLAYERCOLOR[winner[1]] }}>
-                  {winner[0]} wins!
-                </div>
-              );
-              default:
-          }
-          break;
-        case GAME.LOSE:
-          return (
-            <button className='Reset' onClick={tryAgain}>
-              Try Again?
-            </button>
-          );
-        default:
-          return (
-            <button className='Reset' onClick={tryAgain}>
-              Reset
-            </button>
-          );
-      }
-    }, [gameState, tryAgain, players, gameMode]);
+    switch(gameState) {
+      case GAME.WIN:
+        switch (gameMode) {
+          case MODE.COOP:
+            return 'You win!';
+          case MODE.VERSUS:
+            let winner = players.toSorted((player1, player2) => player2[2] - player1[2])[0];
+            return (
+              <div style={{ color: PLAYERCOLOR[winner[1]] }}>
+                {winner[0]} wins!
+              </div>
+            );
+            default:
+        }
+        break;
+      default:
+        return '';
+    }
+  }, [gameState, gameMode, players]);
 
   return (
     <ThemeProvider theme={theme}>   
@@ -135,13 +148,9 @@ function App() {
             <div className='Center'>
               <Info/>
               <Board difficulty={difficulty} boardData={boardData}/>
-              <div 
-                style={{
-                  width: String(DIFFICULTY[difficulty][0] * 40 + DIFFICULTY[difficulty][0]) + 'px'
-                }} 
-                className='Result'
-              >
-                {getResult()}
+              <div className='Result'>
+                <div style={{ paddingLeft: '4px' }}>{getResult()}</div>
+                <div style={{ paddingRight: '4px' }}>{getReset()}</div>
               </div>
               <a className='Credits' href="https://github.com/SSonagi/minesweeper-together">Github</a>
             </div>
