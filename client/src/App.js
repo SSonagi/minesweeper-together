@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { restartGame, updateBoard, updatePlayers, startTimer } from './store/actions';
-import { GAME } from './constants';
+import { DIFFICULTY, GAME } from './constants';
 import Board from './components/board/board';
 import Info from './components/info/info';
 import Players from './components/players/players';
@@ -16,11 +16,11 @@ import Room from './components/room/room';
 import Difficulty from './components/difficulty/difficulty';
 import Title from './images/Title.png';
 
-const socket = io("localhost:4000");
+// const socket = io("localhost:4000");
 
-// const socket = io("https://minesweeper-together.onrender.com", {
-//   withCredentials: true
-// }); // Connect to server
+const socket = io("https://minesweeper-together.onrender.com", {
+  withCredentials: true
+}); // Connect to server
 
 const theme = createTheme({
   palette: {
@@ -146,9 +146,9 @@ function App() {
               <img className='Title' src={Title}/>
             </div>
             <div className='Center'>
-              <Info/>
+              <Info width={String(DIFFICULTY[difficulty][0] * 40 + DIFFICULTY[difficulty][0]) + 'px'}/>
               <Board difficulty={difficulty} boardData={boardData}/>
-              <div className='Result'>
+              <div className='Result' style={{ width: String(DIFFICULTY[difficulty][0] * 40 + DIFFICULTY[difficulty][0]) + 'px'}}>
                 <div style={{ paddingLeft: '4px' }}>{getResult()}</div>
                 <div style={{ paddingRight: '4px' }}>{getReset()}</div>
               </div>

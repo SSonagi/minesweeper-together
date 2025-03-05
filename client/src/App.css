@@ -24,13 +24,14 @@
 }
 
 .Title {
-  width: calc(300px + 12vw);
+  width: calc(200px + 15vw);
 }
 
 .Left {
   grid-area: left;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 
 .Center {
@@ -49,12 +50,54 @@
   flex-direction: column;
 }
 
+.Credits {
+  color: #6e6e6e;
+  position: absolute;
+  bottom: 1rem;
+}
+
 .Settings {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-end;
   gap: 10px;
+}
+
+@media only screen and (max-width: 856px) {
+  .Main {
+    grid-template-areas: 
+      "left left"
+      "center right";
+    grid-template-columns: minmax(15rem,1fr) auto;
+    grid-template-rows: 0px auto;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .Main {
+    grid-template-areas: 
+      "left"
+      "center"
+      "right";
+    grid-template-rows: 50px auto auto;
+  }
+
+  .Left {
+    align-items: center;
+  }
+
+  .Right {
+    align-items: center;
+  }
+
+  .Settings {
+    align-items: center;
+  }
+
+  .Credits {
+    display: none;
+  }
 }
 
 .Result {
@@ -72,10 +115,4 @@
   color: whitesmoke;
   text-decoration: underline;
   cursor: pointer;
-}
-
-.Credits {
-  color: #6e6e6e;
-  position: fixed;
-  bottom: 1rem;
 }

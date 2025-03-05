@@ -4,7 +4,9 @@ import { updateElapsedTime } from '../../store/actions';
 import { DIFFICULTY } from '../../constants';
 import './info.css'
 
-const Info = () => {
+const Info = ({
+	width
+}) => {
     const enableTimer = useSelector(state => state.enableTimer);
 	const elapsedTime = useSelector(state => state.elapsedTime);
     const mineCount = useSelector(state => DIFFICULTY[state.difficulty][2]);
@@ -26,7 +28,7 @@ const Info = () => {
 	}, [enableTimer, dispatch]);
 
     return (
-        <div className='Info'>
+        <div className='Info' style={{ width: width }}>
 			<div style={{ paddingLeft: '4px' }}>Mines: {mineCount - flagCount}</div>
 			<div style={{ paddingRight: '4px' }}>Time: {elapsedTime}</div>
         </div>

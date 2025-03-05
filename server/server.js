@@ -11,8 +11,8 @@ const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
     cors: {
-        // origin: ["http://minesweepertogether.com", "https://minesweepertogether.com"],
-        origin: "http://localhost:3000",
+        origin: ["http://minesweepertogether.com", "https://minesweepertogether.com"],
+        // origin: "http://localhost:3000",
         methods: ["GET", "POST"],
         credentials: true
     },
