@@ -143,7 +143,7 @@ function App() {
               }/>
             }
             <div className='Left'>
-              <img className='Title' src={Title}/>
+              <img className='Title' src={Title} alt='Minesweeper Together'/>
             </div>
             <div className='Center'>
               <Info width={String(DIFFICULTY[difficulty][0] * 40 + DIFFICULTY[difficulty][0]) + 'px'}/>
