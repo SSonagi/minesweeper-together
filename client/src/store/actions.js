@@ -14,6 +14,10 @@ const gameSlice = createSlice({
         openedCellCount: 0,
         roomNo: 0,
         players: [],
+        messages: [
+            { name: 'Welcome to Minesweeper Together!', message: '', color: null },
+            { name: 'Tip', message: 'Join a friend\'s room to play together!', color: null },
+        ],
         gameMode: MODE.COOP
     },
     reducers: {
@@ -39,6 +43,7 @@ const gameSlice = createSlice({
             server.emit("joinRoom", {
                 roomNo: action.payload
             });
+            state.messages.push({ name: 'System', message: `Joined room ${action.payload}`, color: null });
         },
         login: (state, action) => {
             server.emit("login", {
@@ -76,10 +81,20 @@ const gameSlice = createSlice({
                 x: action.payload.x,
                 y: action.payload.y
             });    
+        },
+        // Send a chat message to the server (server will relay to room)
+        sendChat: (state, action) => {
+            server.emit("chat", { message: action.payload });
+        },
+        // Receive a chat message (payload: { name, message }) and store it
+        receiveChat: (state, action) => {
+            const payload = action.payload || {};
+            const senderColor = state.players.find(p => p[0] === payload.name)?.[1] ?? null;
+            state.messages.push({ ...payload, color: senderColor });
         }
     },
 });
 
 const { actions, reducer } = gameSlice
-export const { updateBoard, updatePlayers, joinRoom, login, restartGame, startVersus, updateElapsedTime, startTimer, clickCell, rightClickCell } = actions; // Export actions
+export const { updateBoard, updatePlayers, joinRoom, login, restartGame, startVersus, updateElapsedTime, startTimer, clickCell, rightClickCell, sendChat, receiveChat } = actions; // Export actions
 export default reducer; // Export the reducer

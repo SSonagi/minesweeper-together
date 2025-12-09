@@ -11,8 +11,8 @@ const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
     cors: {
-        origin: ["http://minesweepertogether.com", "https://minesweepertogether.com"],
-        // origin: "http://localhost:3000",
+        // origin: ["http://minesweepertogether.com", "https://minesweepertogether.com"],
+        origin: "http://localhost:3000",
         methods: ["GET", "POST"],
         credentials: true
     },
@@ -211,6 +211,15 @@ io.on("connection", (socket) => {
             flagCount[roomNo] += getFlagCount(cellCode2);
         }   
         updateBoard(roomNo);
+    });
+
+    socket.on("chat", (data) => {
+        const player = players[socket.id] || ["", null, 0];
+        const payload = {
+            name: player[0],
+            message: data.message
+        };
+        io.in(roomNo).emit("chat", payload);
     });
 
     socket.on("disconnect", () => {

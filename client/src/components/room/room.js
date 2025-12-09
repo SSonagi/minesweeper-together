@@ -14,13 +14,14 @@ const Room = () => {
     };
 
     const handleEnterClick = () => {
+        setRoom('');
         dispatch(joinRoom(room));
     };
 
     return (
         <div className='Room'>
             <div className='Current'>
-                Room: {roomNo}
+                Room ID: {roomNo}
             </div>
             <div className='Join'>
                 Join a new room?

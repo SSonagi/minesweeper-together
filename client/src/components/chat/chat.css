@@ -1,0 +1,36 @@
+.ChatContainer {
+  width: 360px;
+  max-height: 360px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ChatList {
+  max-height: 340px;
+  overflow-y: auto;
+  padding: 8px 0;
+}
+
+.ChatList .MuiListItem-root,
+.ChatList li {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.ChatName {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.ChatLine {
+  display: flex;
+  align-items: start;
+  gap: 8px;
+}
+
+.ChatMessage {
+  color: whitesmoke;
+  word-break: break-word;
+  font-size: 0.95rem;
+}

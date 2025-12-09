@@ -40,7 +40,7 @@ const Board = ({
 
     const onClickClassic = useCallback(() => {
         setShowControl(false);
-    });
+    }, []);
 
  	return (
         <div style={{width: String(width * 40 + width) + 'px'}} className='Board'>
@@ -64,7 +64,7 @@ const Board = ({
                     >
                         Classic
                     </Button>
-                    { showVersus && 
+                    { showVersus ? 
                         <Button
                             variant='contained'
                             size='small'
@@ -77,11 +77,25 @@ const Board = ({
                         >
                             Versus
                         </Button>
+                        :
+                        <Button
+                            variant='contained'
+                            size='small'
+                            style={{
+                                color: '#FFFFFF', 
+                                backgroundColor: '#848484ff',
+                                borderRadius: '12px'
+                            }}
+                            disabled
+                        >
+                            Versus
+                        </Button>
+                        
                     }
                 </div>
             }
             {Array(width * height).fill().map((_, i) =>     
-                <Cell x={i % width} y={Math.floor(i / width)} boardData={boardData} onClickHandler={() => {}}></Cell>
+                <Cell key={i} x={i % width} y={Math.floor(i / width)} boardData={boardData} onClickHandler={() => {}}></Cell>
             )}
         </div>
 	);
