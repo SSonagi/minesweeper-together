@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { List, ListItem, ListItemText, Typography, Paper, TextField, IconButton, Box, Divider } from '@mui/material';
+import { List, ListItem, ListItemText, Paper, TextField, IconButton, Box, Divider } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { sendChat } from '../../store/actions';
 import { PLAYERCOLOR } from '../../constants';
