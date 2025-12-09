@@ -17,11 +17,11 @@ import Difficulty from './components/difficulty/difficulty';
 import Title from './images/Title.png';
 import Chat from './components/chat/chat';
 
-const socket = io("localhost:4000");
+// const socket = io("localhost:4000");
 
-// const socket = io("https://minesweeper-together.onrender.com", {
-//   withCredentials: true
-// }); // Connect to server
+const socket = io("https://minesweeper-together.onrender.com", {
+  withCredentials: true
+}); // Connect to server
 
 const theme = createTheme({
   palette: {
