@@ -1,4 +1,4 @@
-import { flagCell, initBoard, expandCell, getFlagCount } from './logic.js';
+import { flagCell, initBoard, expandCell, getFlagCount, moveMine } from './logic.js';
 import { CODES, GAME, DIFFICULTY } from './constants.js';
 
 import express from "express";
@@ -150,9 +150,15 @@ io.on("connection", (socket) => {
         const x = data.x;
         const y = data.y;
         const cellCode = boardData[roomNo][y][x];
+        const firstClick = (gameState[roomNo] === GAME.READY);
         gameState[roomNo] = GAME.RUN;
         
         const openCell = (code, x, y) => {
+            if (firstClick && code === CODES.MINE) {
+                moveMine(boardData[roomNo], x, y);
+                code = boardData[roomNo][y][x];
+            }
+
             if (code === CODES.MINE) {
                 switch(boardMode[roomNo]) {
                     case "coop":

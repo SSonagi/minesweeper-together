@@ -105,3 +105,16 @@ export const expandCell = (boardData, x, y) => {
 	dfsSearch(x, y);
 	return { boardData, openedCellCount };
 };
+
+export const moveMine = (boardData, firstX, firstY) => {
+	boardData[firstY][firstX] = CODES.NOTHING;
+
+	for (let y = 0; y < boardData.length; y++) {
+		for (let x = 0; x < boardData[0].length; x++) {
+			if (boardData[y][x] === CODES.NOTHING && (x !== firstX || y !== firstY)) {
+				boardData[y][x] = CODES.MINE;
+				return boardData;
+			}
+		}
+	}
+};
